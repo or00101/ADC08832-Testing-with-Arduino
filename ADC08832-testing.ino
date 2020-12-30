@@ -39,7 +39,7 @@ void loop() {
     }
     
     if (cycle >= 4 && cycle <= 11){ //CLK 4 to 11 (MSB DATA FORM)
-      msbData_addBit();
+      Data_addBit(&msbData);
     }
   
     if (cycle == 11){ //the LSB of both forms was at CC 11.
@@ -47,8 +47,9 @@ void loop() {
     }
     
     if (cycle >= 12 && cycle <= 18){ //CLK 12 to 18 (LSB DATA FORM)
-      int shift = BYTE_SIZE - cycle + LSB_START + 1;
-      lsbData_addBit(shift);
+      //int shift = BYTE_SIZE - cycle + LSB_START + 1;
+      //Data_addBit(shift);
+      Data_addBit(&lsbData);
     }
   }
 
@@ -56,10 +57,24 @@ void loop() {
   printData(msbData);
   Serial.print("LSB is: ");
   printData(lsbData);
+  Serial.print("Value is: ");
+  msbData_printValue(msbData);
+  Serial.print("Percent is: ");
+  msbData_printPercent(msbData);
 }
 
-void msbData_addBit(){
-  msbData = (msbData << 1) | digitalRead(DO);
+void msbData_printValue(unsigned char data){
+  int val = (int)data;
+  Serial.println(val);
+}
+
+void msbData_printPercent(unsigned char data){
+  float percent = (float)data / 256;
+  Serial.println(percent);
+}
+
+void Data_addBit(unsigned char *data){
+  *data = (*data << 1) | digitalRead(DO);
 }
 
 void lsbData_addBit(int shift){
@@ -85,7 +100,7 @@ void CKL_setRise() { digitalWrite(CLK, HIGH); }
 void CKL_setFall() { digitalWrite(CLK, LOW); }
 
 void cycleCLK(int cycle){
-  
+  delay(CLK_CYCLE);
   CKL_setRise();
   delay(CLK_CYCLE);
   
