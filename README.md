@@ -19,6 +19,11 @@ Once assembled and plugged to the scope, after triggering the scope to the falli
 
 > SCOPE MEASUREMENT: (CLK - YELLOW, CS - BLUE, DI - PINK, DO - GREEN)
 
+We can see we measured: 
+> MSB DATA: 00101110
+and:
+> LSB DATA: 01110100
+
 which is exactly what we wanted!
 
 
