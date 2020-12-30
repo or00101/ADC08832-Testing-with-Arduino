@@ -76,7 +76,7 @@ void printData(unsigned char data){
   for (int i = 0; i < BYTE_SIZE; i++){
     res[BYTE_SIZE - i - 1] = getDigit(data, i) + '0';
   }
-
+  res[BYTE_SIZE] = '\0';
   Serial.println(res);
 }
 
